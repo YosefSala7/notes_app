@@ -66,30 +66,16 @@ class SignUp extends StatelessWidget {
                       Gap(20),
                       MyPasswordField(myKey: _passwordController),
                       Gap(40),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(
+                      customPrimaryButton(
+                        context: context,
+                        formKey: _formKey,
+                        onTap: () {
+                          Navigator.push(
                             context,
-                          ).colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(10),
-                          ),
-                          fixedSize: Size(width, 40),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Home();
-                                },
-                              ),
-                            );
-                          }
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
                         },
-                        child: Text("Sign Up", style: TextStyle(fontSize: 18)),
+                        title: "Sign Up",
                       ),
                       Gap(10),
                       AuthSwitchPrompt(

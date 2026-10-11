@@ -1,5 +1,6 @@
 import 'package:app/features/Home/data/models/note_model.dart';
 import 'package:app/core/components/card.dart';
+import 'package:app/features/add_note/presenter/add_note.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -13,7 +14,12 @@ class Home extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNote()),
+          );
+        },
         child: Icon(Icons.add),
       ),
       appBar: AppBar(
