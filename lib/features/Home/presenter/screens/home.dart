@@ -61,7 +61,7 @@ class Home extends StatelessWidget {
                 separatorBuilder: (context, index) => SizedBox(height: 12),
                 itemCount: notes.length,
                 itemBuilder: (context, index) {
-                  return MyCard(note: notes[index], context: context);
+                  return myCard(note: notes[index], context: context);
                 },
               ),
             ),

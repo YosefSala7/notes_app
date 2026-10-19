@@ -1,6 +1,5 @@
 import 'package:app/core/components/my_textfield.dart';
 import 'package:app/core/components/password_field.dart';
-import 'package:app/features/Home/presenter/screens/home.dart';
 import 'package:app/features/auth/presenter/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -8,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
+  
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -18,6 +18,7 @@ class SignUp extends StatelessWidget {
     double height = MediaQuery.heightOf(context);
     double width = MediaQuery.widthOf(context);
     ThemeData theme = Theme.of(context);
+    
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -28,9 +29,9 @@ class SignUp extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CheckedNoteImg(height: height, width: width),
-                Gap(10),
+                const Gap(10),
                 header(data: "Create Your Account", theme: theme),
-                Gap(40),
+                const Gap(40),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -42,15 +43,16 @@ class SignUp extends StatelessWidget {
                         preIcon: Icons.email,
                         key: _emailController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return "This Field Is Required";
                           }
                           if (!value.contains("@")) {
                             return "must contain @";
                           }
+                          return null;
                         },
                       ),
-                      Gap(20),
+                      const Gap(20),
                       myTextField(
                         context: context,
                         hint: "John Doe",
@@ -58,26 +60,33 @@ class SignUp extends StatelessWidget {
                         preIcon: Icons.person,
                         key: _nameController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return "This Field Is Required";
                           }
+                          return null;
                         },
                       ),
-                      Gap(20),
+                      const Gap(20),
                       MyPasswordField(myKey: _passwordController),
-                      Gap(40),
+                      const Gap(40),
                       customPrimaryButton(
                         context: context,
                         formKey: _formKey,
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const Placeholder();
+                                },
+                              ),
+                            );
+                          }
                         },
                         title: "Sign Up",
                       ),
-                      Gap(10),
+                      const Gap(10),
                       AuthSwitchPrompt(
                         context: context,
                         theme: theme,

@@ -59,16 +59,28 @@ class SignIn extends StatelessWidget {
                         ),
                       ),
                       Gap(15),
-                      customPrimaryButton(
-                        context: context,
-                        formKey: _formKey,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(10),
+                          ),
+                          fixedSize: Size(width, 40),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Home();
+                                },
+                              ),
+                            );
+                          }
                         },
-                        title: "Sign In",
+                        child: Text("Sign In"),
                       ),
                       Gap(10),
                       AuthSwitchPrompt(
