@@ -1,6 +1,9 @@
 import 'package:app/features/Home/data/models/note_model.dart';
 import 'package:app/core/components/card.dart';
+import 'package:app/features/Home/presenter/manager/getNote_states.dart';
+import 'package:app/features/Home/presenter/manager/getNotes_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -50,17 +53,33 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(height: 12),
-                itemCount: notes.length,
-                itemBuilder: (context, index) {
-                  return MyCard(
-                    title: notes[index].title,
-                    body: notes[index].body,
-                    date: "5 Sep, 2025",
-                    context: context,
-                  );
+            BlocProvider<NoteCubit>(
+              create: (context) => NoteCubit()..getNotes(),
+              child: BlocBuilder<NoteCubit, NoteState>(
+                builder: (context, state) {
+                  if (state is LoadingNote) {
+                    return CircularProgressIndicator();
+                  } else if (state is NoteFailure) {
+                    return Text(state.e);
+                  } else if (state is NoteSuccess) {
+                    return Expanded(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 12),
+                        itemCount: state.notes.length,
+                        itemBuilder: (context, index) {
+                          return MyCard(
+                            title: state.notes[index].title,
+                            body: state.notes[index].body,
+                            date: "5 Sep, 2025",
+                            context: context,
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return SizedBox();
+                  }
                 },
               ),
             ),
