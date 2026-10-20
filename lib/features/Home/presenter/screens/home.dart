@@ -2,6 +2,7 @@ import 'package:app/features/Home/data/models/note_model.dart';
 import 'package:app/core/components/card.dart';
 import 'package:app/features/Home/presenter/manager/getNote_states.dart';
 import 'package:app/features/Home/presenter/manager/getNotes_cubit.dart';
+import 'package:app/features/add_note/presenter/add_note.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,12 @@ class Home extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNote()),
+          );
+        },
         child: Icon(Icons.add),
       ),
       appBar: AppBar(
@@ -68,10 +74,8 @@ class Home extends StatelessWidget {
                             SizedBox(height: 12),
                         itemCount: state.notes.length,
                         itemBuilder: (context, index) {
-                          return MyCard(
-                            title: state.notes[index].title,
-                            body: state.notes[index].body,
-                            date: "5 Sep, 2025",
+                          return myCard(
+                            note: state.notes[index],
                             context: context,
                           );
                         },

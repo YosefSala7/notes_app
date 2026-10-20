@@ -1,26 +1,31 @@
 import 'package:app/core/themes/app_colors.dart';
+import 'package:app/features/Home/data/models/note_model.dart';
+import 'package:app/features/edit_note/presenter/screens/edit_note.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-Widget MyCard({
-  required String title,
-  required String body,
-  required String date,
+Widget myCard({
+  required NoteModel note,
   required BuildContext context,
 }) {
   ThemeData theme = Theme.of(context);
   return Container(
-    height: 120,
-    padding: EdgeInsets.all(10),
+    height: 100,
+    padding: EdgeInsets.only(left: 15, top: 15),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       color: theme.cardTheme.color,
     ),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          backgroundColor: theme.colorScheme.primary.withAlpha(60),
-          radius: 25,
+        Container(
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: theme.colorScheme.primary.withAlpha(40),
+          ),
           child: Icon(
             Icons.note_alt_rounded,
             size: 30,
@@ -33,10 +38,10 @@ Widget MyCard({
           children: [
             SizedBox(
               child: Text(
-                title,
+                note.title,
                 style: theme.textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 17,
                 ),
               ),
             ),
@@ -44,30 +49,14 @@ Widget MyCard({
             SizedBox(
               width: 200,
               child: Text(
-                body,
+                note.body,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodyMedium!.copyWith(
                   color: AppColors.textHint,
+                  fontSize: 13,
                 ),
               ),
-            ),
-            Gap(5),
-            Row(
-              children: [
-                Icon(
-                  Icons.calendar_month_rounded,
-                  size: 15,
-                  color: theme.iconTheme.color,
-                ),
-                SizedBox(width: 4),
-                Text(
-                  date,
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                    color: AppColors.textHint,
-                  ),
-                ),
-              ],
             ),
           ],
         ),
@@ -75,6 +64,7 @@ Widget MyCard({
         IconButton(
           onPressed: () {
             showModalBottomSheet(
+              constraints: BoxConstraints(maxHeight: 400),
               context: context,
               builder: (context) {
                 return Padding(
@@ -82,29 +72,32 @@ Widget MyCard({
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: Row(
                           children: [
-                            CircleAvatar(
-                              backgroundColor: theme.colorScheme.primary
-                                  .withAlpha(60),
-                              radius: 25,
+                            Container(
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: theme.colorScheme.primary.withAlpha(40),
+                              ),
                               child: Icon(
                                 Icons.note_alt_rounded,
                                 size: 30,
                                 color: theme.colorScheme.primary,
                               ),
                             ),
-                            Gap(10),
-                            Column(
+                            Gap(15),
+                            Column( 
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
                                   child: Text(
-                                    title,
+                                    note.title,
                                     style: theme.textTheme.bodyLarge!.copyWith(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                      fontSize: 17,
                                     ),
                                   ),
                                 ),
@@ -112,29 +105,14 @@ Widget MyCard({
                                 SizedBox(
                                   width: 200,
                                   child: Text(
-                                    body,
+                                    note.body,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: theme.textTheme.bodyMedium!.copyWith(
                                       color: AppColors.textHint,
+                                      fontSize: 13,
                                     ),
                                   ),
-                                ),
-                                Gap(5),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.calendar_month_rounded,
-                                      size: 15,
-                                      color: theme.iconTheme.color,
-                                    ),
-                                    Gap(4),
-                                    Text(
-                                      date,
-                                      style: theme.textTheme.bodyMedium!
-                                          .copyWith(color: AppColors.textHint),
-                                    ),
-                                  ],
                                 ),
                               ],
                             ),
@@ -145,7 +123,9 @@ Widget MyCard({
                       Gap(5),
                       clickAbleRow(
                         theme: theme,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>EditNote(note: note,)));
+                        },
                         prefexIcon: Icons.edit,
                         title: "Edit Note",
                       ),
@@ -179,7 +159,7 @@ Widget MyCard({
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Gap(30)
+                      Gap(30),
                     ],
                   ),
                 );

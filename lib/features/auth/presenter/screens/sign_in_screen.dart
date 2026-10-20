@@ -80,11 +80,11 @@ class SignIn extends StatelessWidget {
                             );
                           }
                         },
-                        child: Text("Sign In", style: TextStyle(fontSize: 18)),
+                        child: Text("Sign In"),
                       ),
                       Gap(10),
                       AuthSwitchPrompt(
-                        theme:theme,
+                        theme: theme,
                         context: context,
                         text: "Do Not Have Account?",
                         actionText: "Sign Up",
@@ -109,4 +109,28 @@ class SignIn extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget customPrimaryButton({
+  required String title,
+  required Function() onTap,
+  required BuildContext context,
+  required GlobalKey<FormState> formKey,
+}) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(10),
+      ),
+      fixedSize: Size(MediaQuery.widthOf(context), 40),
+    ),
+    onPressed: () {
+      if (formKey.currentState!.validate()) {
+        onTap();
+      }
+    },
+    child: Text(title, style: TextStyle(fontSize: 18)),
+  );
 }
